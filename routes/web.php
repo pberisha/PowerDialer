@@ -23,4 +23,8 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('/register', 'Auth\RegisterController@register');
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+Route::prefix('admin')->group(function () {
+    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/CallCenters', 'CallcenterController@index')->name('CallCenters');
+});

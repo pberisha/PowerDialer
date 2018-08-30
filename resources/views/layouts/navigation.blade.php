@@ -8,9 +8,9 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
-          <span data-feather="file"></span>
-          Orders
+      <a class="nav-link" href="{{ route('CallCenters') }}">
+          <span data-feather="briefcase"></span>
+          CallCenters
         </a>
       </li>
       <li class="nav-item">

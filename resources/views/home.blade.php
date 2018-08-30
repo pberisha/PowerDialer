@@ -10,7 +10,5 @@
 @endsection
 
 @section('script')
-    <script>
-        feather.replace()
-    </script>
+
 @endsection
