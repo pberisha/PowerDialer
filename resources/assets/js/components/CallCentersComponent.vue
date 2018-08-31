@@ -57,8 +57,8 @@
         props: ['apitoken'],
         mounted () {
             axios
-            .post('/api/admin/callcenters', { 'api-token': this.apitoken })
-            .then(response => (this.items = response.data.users))
+                .post('/api/admin/callcenters')
+                .then(response => (this.items = response.data.users))
         },
         methods: {
             updatePassword: function(id, event){

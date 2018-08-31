@@ -6,9 +6,8 @@
 
 @section('content')
     <h1>Hello World</h1>
-
+    <token></token>
 @endsection
 
 @section('script')
-
 @endsection

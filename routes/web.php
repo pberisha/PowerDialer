@@ -27,4 +27,5 @@ Route::post('/register', 'Auth\RegisterController@register');
 Route::prefix('admin')->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/CallCenters', 'CallcenterController@index')->name('CallCenters');
+    Route::get('/APIAccess', 'APIAccessController@index')->name('apiAccess');
 });

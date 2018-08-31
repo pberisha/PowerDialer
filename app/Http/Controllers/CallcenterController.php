@@ -26,17 +26,13 @@ class CallcenterController extends Controller
     }
 
     public function callcenters(Request $request){
-        $token = $request->input('api-token');
-        $user = User::where('remember_token', $token)->first();
-        $args = [ 'users' => self::getCallCenters($user->domain())];
+        $args = [ 'users' => self::getCallCenters()];
         return $args;
     }
 
-    public function getCallCenters($domain = NULL){
-        if($domain == NULL){
-            $user = Auth::user();
-            $domain = $user->domain();
-        }
+    public function getCallCenters(){
+        $user = Auth::user();
+        $domain = $user->domain();
         if($domain == 'ADMIN'){
             $users = User::all();
         }else{
