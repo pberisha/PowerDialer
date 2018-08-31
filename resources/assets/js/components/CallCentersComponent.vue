@@ -22,14 +22,14 @@
                 </tr>
             </tfoot>
             <tbody>
-                <tr v-for="item in items">
+                <tr v-for="item in items" :key="item.id">
                     <td>{{ item.name }}</td>
                     <td>{{ item.username }}</td>
                     <td>{{ item.username.split('@',2)[1] }}</td>
                     <td>{{ item.email }}</td>
                     <td class="input-group input-group-sm">
                         <input class="form-control" type="text" name="password" id="password" placeholder="Change Password" v-model="newPassword" />
-                        <button class="btn btn-info btn-sm" v-on:click="updatePassword(item.id)">Update</button>
+                        <button class="btn btn-info btn-sm" v-on:click="updatePassword()">Update</button>
                     </td>
                     <td><button class="btn btn-danger btn-sm">Delete</button><button class="btn btn-warning btn-sm">Suspend</button></td>
                 </tr>

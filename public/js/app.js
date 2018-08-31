@@ -13903,21 +13903,6 @@ window.Vue = __webpack_require__(36);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// Vue.component(
-//     'passport-clients',
-//     require('./components/passport/Clients.vue')
-// );
-
-// Vue.component(
-//     'passport-authorized-clients',
-//     require('./components/passport/AuthorizedClients.vue')
-// );
-
-// Vue.component(
-//     'passport-personal-access-tokens',
-//     require('./components/passport/PersonalAccessTokens.vue')
-// );
-
 Vue.component('call-centers', __webpack_require__(48));
 Vue.component('token', __webpack_require__(68));
 
@@ -47457,7 +47442,7 @@ var render = function() {
       _c(
         "tbody",
         _vm._l(_vm.items, function(item) {
-          return _c("tr", [
+          return _c("tr", { key: item.id }, [
             _c("td", [_vm._v(_vm._s(item.name))]),
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(item.username))]),
@@ -47500,7 +47485,7 @@ var render = function() {
                   staticClass: "btn btn-info btn-sm",
                   on: {
                     click: function($event) {
-                      _vm.updatePassword(item.id)
+                      _vm.updatePassword()
                     }
                   }
                 },
