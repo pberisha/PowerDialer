@@ -21,4 +21,5 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::post('/callcenters', 'APIAccessController@callcenters');
     Route::post('/callcenters/password', 'APIAccessController@setPassword');
     Route::post('/callcenters/delete', 'APIAccessController@userDelete');
+    Route::post('/callcenters/add', 'APIAccessController@addUser');
 });

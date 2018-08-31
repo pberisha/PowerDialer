@@ -47980,19 +47980,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             dismissCountDown: 0,
             alertMessage: 'Hello World',
             myVariant: 'warning',
-            newCallCenter: newCallCenter
+            newCallCenter: {}
         };
     },
     props: ['apitoken'],
     mounted: function mounted() {
-        var _this = this;
-
-        axios.post('/api/admin/callcenters').then(function (response) {
-            return _this.items = response.data.users;
-        });
+        this.getUsers();
     },
 
     methods: {
+        getUsers: function getUsers() {
+            var _this = this;
+
+            axios.post('/api/admin/callcenters').then(function (response) {
+                return _this.items = response.data.users;
+            });
+        },
+
         updatePassword: function updatePassword(index, newPassword) {
             var self = this;
             var item = this.items[index];
@@ -48007,7 +48011,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/api/admin/callcenters/delete', { id: item.id }).then(function (response) {
                 self.showAlert(response.data.alert, response.data.status);
                 if (response.data.alert == 'success') {
-                    this.items.splice(index, 1);
+                    self.getUsers();
                 }
             });
         },
@@ -48018,6 +48022,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.myVariant = variant;
             this.alertMessage = text;
             this.dismissCountDown = this.dismissSecs;
+        },
+        saveData: function saveData() {
+            var self = this;
+            axios.post('/api/admin/callcenters/add', this.newCallCenter).then(function (response) {
+                self.showAlert(response.data.alert, response.data.status);
+                self.getUsers();
+                self.newCallCenter = {};
+            });
         }
     }
 });
@@ -48168,107 +48180,186 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("b-modal", { attrs: { id: "modal1", title: "Add New CallCenter" } }, [
-        _c("div", { staticClass: "form-group row" }, [
-          _c(
-            "label",
-            {
-              staticClass: "col-md-4 col-form-label text-md-right",
-              attrs: { for: "name" }
-            },
-            [_vm._v("Name")]
-          ),
+      _c(
+        "b-modal",
+        {
+          attrs: { id: "modal1", title: "Add New CallCenter" },
+          on: { ok: _vm.saveData }
+        },
+        [
+          _c("div", { staticClass: "form-group row" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-md-4 col-form-label text-md-right",
+                attrs: { for: "name" }
+              },
+              [_vm._v("Name")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newCallCenter.name,
+                    expression: "newCallCenter.name"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  id: "name",
+                  type: "text",
+                  name: "name",
+                  value: "",
+                  placeholder: "Name",
+                  required: "",
+                  autofocus: ""
+                },
+                domProps: { value: _vm.newCallCenter.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.newCallCenter, "name", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("input", {
-              staticClass: "form-control",
-              attrs: {
-                id: "name",
-                type: "text",
-                name: "name",
-                value: "",
-                required: "",
-                autofocus: ""
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group row" }, [
-          _c(
-            "label",
-            {
-              staticClass: "col-md-4 col-form-label text-md-right",
-              attrs: { for: "username" }
-            },
-            [_vm._v("Username")]
-          ),
+          _c("div", { staticClass: "form-group row" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-md-4 col-form-label text-md-right",
+                attrs: { for: "username" }
+              },
+              [_vm._v("Username")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newCallCenter.username,
+                    expression: "newCallCenter.username"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  id: "username",
+                  type: "text",
+                  name: "username",
+                  value: "",
+                  placeholder: "Username",
+                  required: "",
+                  autofocus: ""
+                },
+                domProps: { value: _vm.newCallCenter.username },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.newCallCenter, "username", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("input", {
-              staticClass: "form-control",
-              attrs: {
-                id: "username",
-                type: "text",
-                name: "username",
-                value: "",
-                required: "",
-                autofocus: ""
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group row" }, [
-          _c(
-            "label",
-            {
-              staticClass: "col-md-4 col-form-label text-md-right",
-              attrs: { for: "password" }
-            },
-            [_vm._v("Password")]
-          ),
+          _c("div", { staticClass: "form-group row" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-md-4 col-form-label text-md-right",
+                attrs: { for: "password" }
+              },
+              [_vm._v("Password")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newCallCenter.password,
+                    expression: "newCallCenter.password"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  id: "password",
+                  type: "password",
+                  name: "password",
+                  value: "",
+                  placeholder: "Password",
+                  required: "",
+                  autofocus: ""
+                },
+                domProps: { value: _vm.newCallCenter.password },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.newCallCenter, "password", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("input", {
-              staticClass: "form-control",
-              attrs: {
-                id: "password",
-                type: "password",
-                name: "password",
-                value: "",
-                required: "",
-                autofocus: ""
-              }
-            })
+          _c("div", { staticClass: "form-group row" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-md-4 col-form-label text-md-right",
+                attrs: { for: "email" }
+              },
+              [_vm._v("E-Mail")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newCallCenter.email,
+                    expression: "newCallCenter.email"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  id: "email",
+                  type: "text",
+                  name: "email",
+                  value: "",
+                  placeholder: "E-Mail",
+                  required: "",
+                  autofocus: ""
+                },
+                domProps: { value: _vm.newCallCenter.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.newCallCenter, "email", $event.target.value)
+                  }
+                }
+              })
+            ])
           ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group row" }, [
-          _c(
-            "label",
-            {
-              staticClass: "col-md-4 col-form-label text-md-right",
-              attrs: { for: "email" }
-            },
-            [_vm._v("E-Mail")]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("input", {
-              staticClass: "form-control",
-              attrs: {
-                id: "email",
-                type: "password",
-                name: "email",
-                value: "",
-                required: "",
-                autofocus: ""
-              }
-            })
-          ])
-        ])
-      ])
+        ]
+      )
     ],
     1
   )

@@ -60,4 +60,39 @@ class APIAccessController extends Controller
         }
         return $msg;
     }
+    public function addUser(Request $r){
+        $msg['status'] = 'User cannot be created at the moment, please try again later!';
+        $msg['alert'] = 'danger';
+        $currUser = Auth::user();
+        $username = null;
+        if($currUser->domain() == 'ADMIN'){
+            // check if domain is included, if not, use current as Default
+            $u = explode('@', $r->input('username'));
+            if( count($u) == 2 ){
+                $username = $r->input('username');
+            }
+            else{
+                $username = $u[0] . '@ADMIN';
+            }
+        }
+        else {
+            $u = explode('@', $r->input('username'));
+                $username = $u[0]. '@' . $currUser->domain();
+        }
+        if(isset($username)){
+            $user = new User();
+            $user->name = $r->input('name');
+            $user->username = $username;
+            $user->password = Hash::make($r->input('password'));
+            $user->email = $r->input('email');
+            $saved = $user->save();
+            if(!$saved){
+                return $msg;
+            }
+            $msg['status'] = 'User has been created!';
+            $msg['alert'] = 'success';
+            $msg['user'] = $user;
+        }
+        return $msg;
+    }
 }

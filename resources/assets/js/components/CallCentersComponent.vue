@@ -17,7 +17,7 @@
                     <th>CallCenter</th>
                     <th>E-Mail</th>
                     <th>Password</th>
-                    <th><b-btn class="btn-success btn-sm" v-b-modal.modal1>Add New CallCenter</b-btn></th>
+                    <th><b-btn class="btn-success btn-sm" v-b-modal.modal1 >Add New CallCenter</b-btn></th>
                 </tr>
             </thead>
             <tfoot>
@@ -47,29 +47,29 @@
                 </tr>
             </tbody>
         </table>
-        <b-modal id="modal1" title="Add New CallCenter">
+        <b-modal id="modal1" title="Add New CallCenter" @ok="saveData">
             <div class="form-group row">
                 <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
                 <div class="col-md-6">
-                    <input id="name" type="text" class="form-control" name="name" value="" required autofocus>
+                    <input id="name" type="text" class="form-control" name="name" value="" v-model="newCallCenter.name" placeholder="Name" required autofocus>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="username" class="col-md-4 col-form-label text-md-right">Username</label>
                 <div class="col-md-6">
-                    <input id="username" type="text" class="form-control" name="username" value="" required autofocus>
+                    <input id="username" type="text" class="form-control" name="username" value="" v-model="newCallCenter.username" placeholder="Username" required autofocus>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
                 <div class="col-md-6">
-                    <input id="password" type="password" class="form-control" name="password" value="" required autofocus>
+                    <input id="password" type="password" class="form-control" name="password" v-model="newCallCenter.password" value="" placeholder="Password" required autofocus>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail</label>
                 <div class="col-md-6">
-                    <input id="email" type="password" class="form-control" name="email" value="" required autofocus>
+                    <input id="email" type="text" class="form-control" name="email" value="" v-model="newCallCenter.email" placeholder="E-Mail" required autofocus>
                 </div>
             </div>
         </b-modal>
@@ -85,16 +85,19 @@
                 dismissCountDown: 0,
                 alertMessage: 'Hello World',
                 myVariant: 'warning',
-                newCallCenter
+                newCallCenter: { }
             }
         },
         props: ['apitoken'],
         mounted () {
-            axios
-                .post('/api/admin/callcenters')
-                .then(response => (this.items = response.data.users))
+            this.getUsers()
         },
         methods: {
+            getUsers(){
+                axios
+                .post('/api/admin/callcenters')
+                .then(response => (this.items = response.data.users))
+            },
             updatePassword: function(index, newPassword){
                 var self = this;
                 let item = this.items[index];
@@ -118,7 +121,7 @@
                     .then(function (response) {
                         self.showAlert(response.data.alert, response.data.status)
                         if(response.data.alert == 'success'){
-                            this.items.splice(index, 1);
+                            self.getUsers()
                         }
                     })
             },
@@ -129,6 +132,16 @@
                 this.myVariant = variant
                 this.alertMessage = text
                 this.dismissCountDown = this.dismissSecs
+            },
+            saveData() {
+                var self = this;
+                axios.post(
+                    '/api/admin/callcenters/add', this.newCallCenter )
+                    .then(function (response){
+                        self.showAlert(response.data.alert, response.data.status)
+                        self.getUsers()
+                        self.newCallCenter = {}
+                    })
             }
         }
     }
