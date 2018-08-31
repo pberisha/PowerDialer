@@ -47945,6 +47945,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47953,7 +47979,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             dismissSecs: 3,
             dismissCountDown: 0,
             alertMessage: 'Hello World',
-            myVariant: 'warning'
+            myVariant: 'warning',
+            newCallCenter: newCallCenter
         };
     },
     props: ['apitoken'],
@@ -48003,130 +48030,250 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row", attrs: { id: "CallCenters" } }, [
-    _c(
-      "div",
-      [
-        _c(
-          "b-alert",
-          {
-            attrs: {
-              show: _vm.dismissCountDown,
-              dismissible: "",
-              variant: _vm.myVariant
-            },
-            on: {
-              dismissed: function($event) {
-                _vm.dismissCountDown = 0
-              },
-              "dismiss-count-down": _vm.countDownChanged
-            }
-          },
-          [_vm._v("\n        " + _vm._s(_vm.alertMessage) + "\n        ")]
-        )
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("table", { staticClass: "table" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _vm._m(1),
-      _vm._v(" "),
+  return _c(
+    "div",
+    { staticClass: "row", attrs: { id: "CallCenters" } },
+    [
       _c(
-        "tbody",
-        _vm._l(_vm.items, function(item, index) {
-          return _c("tr", { key: item.id }, [
-            _c("td", [_vm._v(_vm._s(item.name))]),
+        "div",
+        [
+          _c(
+            "b-alert",
+            {
+              attrs: {
+                show: _vm.dismissCountDown,
+                dismissible: "",
+                variant: _vm.myVariant
+              },
+              on: {
+                dismissed: function($event) {
+                  _vm.dismissCountDown = 0
+                },
+                "dismiss-count-down": _vm.countDownChanged
+              }
+            },
+            [_vm._v("\n        " + _vm._s(_vm.alertMessage) + "\n        ")]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("table", { staticClass: "table" }, [
+        _c("thead", [
+          _c("tr", [
+            _c("th", [_vm._v("Name")]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(item.username))]),
+            _c("th", [_vm._v("Username")]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(item.username.split("@", 2)[1]))]),
+            _c("th", [_vm._v("CallCenter")]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(item.email))]),
+            _c("th", [_vm._v("E-Mail")]),
             _vm._v(" "),
-            _c("td", { staticClass: "input-group input-group-sm" }, [
-              _c("input", {
-                directives: [
+            _c("th", [_vm._v("Password")]),
+            _vm._v(" "),
+            _c(
+              "th",
+              [
+                _c(
+                  "b-btn",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: item.newPassword,
-                    expression: "item.newPassword"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "password",
-                  name: "password",
-                  placeholder: "Change Password"
-                },
-                domProps: { value: item.newPassword },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(item, "newPassword", $event.target.value)
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-info btn-sm",
-                  on: {
-                    click: function($event) {
-                      _vm.updatePassword(index, item.newPassword)
-                    }
-                  }
-                },
-                [_vm._v("Update")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-danger btn-sm",
-                  on: {
-                    click: function($event) {
-                      _vm.deleteUser(index)
-                    }
-                  }
-                },
-                [_vm._v("Delete")]
-              )
-            ])
+                    directives: [
+                      {
+                        name: "b-modal",
+                        rawName: "v-b-modal.modal1",
+                        modifiers: { modal1: true }
+                      }
+                    ],
+                    staticClass: "btn-success btn-sm"
+                  },
+                  [_vm._v("Add New CallCenter")]
+                )
+              ],
+              1
+            )
           ])
-        })
-      )
-    ])
-  ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.items, function(item, index) {
+            return _c("tr", { key: item.id }, [
+              _c("td", [_vm._v(_vm._s(item.name))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(item.username))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(item.username.split("@", 2)[1]))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(item.email))]),
+              _vm._v(" "),
+              _c("td", { staticClass: "input-group input-group-sm" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: item.newPassword,
+                      expression: "item.newPassword"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "password",
+                    name: "password",
+                    placeholder: "Change Password"
+                  },
+                  domProps: { value: item.newPassword },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(item, "newPassword", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-dark btn-sm",
+                    on: {
+                      click: function($event) {
+                        _vm.updatePassword(index, item.newPassword)
+                      }
+                    }
+                  },
+                  [_vm._v("Update")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger btn-sm",
+                    on: {
+                      click: function($event) {
+                        _vm.deleteUser(index)
+                      }
+                    }
+                  },
+                  [_vm._v("Delete")]
+                )
+              ])
+            ])
+          })
+        )
+      ]),
+      _vm._v(" "),
+      _c("b-modal", { attrs: { id: "modal1", title: "Add New CallCenter" } }, [
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-md-4 col-form-label text-md-right",
+              attrs: { for: "name" }
+            },
+            [_vm._v("Name")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: {
+                id: "name",
+                type: "text",
+                name: "name",
+                value: "",
+                required: "",
+                autofocus: ""
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-md-4 col-form-label text-md-right",
+              attrs: { for: "username" }
+            },
+            [_vm._v("Username")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: {
+                id: "username",
+                type: "text",
+                name: "username",
+                value: "",
+                required: "",
+                autofocus: ""
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-md-4 col-form-label text-md-right",
+              attrs: { for: "password" }
+            },
+            [_vm._v("Password")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: {
+                id: "password",
+                type: "password",
+                name: "password",
+                value: "",
+                required: "",
+                autofocus: ""
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-md-4 col-form-label text-md-right",
+              attrs: { for: "email" }
+            },
+            [_vm._v("E-Mail")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: {
+                id: "email",
+                type: "password",
+                name: "email",
+                value: "",
+                required: "",
+                autofocus: ""
+              }
+            })
+          ])
+        ])
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Username")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("CallCenter")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("E-Mail")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Password")]),
-        _vm._v(" "),
-        _c("th")
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

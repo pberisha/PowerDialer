@@ -17,7 +17,7 @@
                     <th>CallCenter</th>
                     <th>E-Mail</th>
                     <th>Password</th>
-                    <th></th>
+                    <th><b-btn class="btn-success btn-sm" v-b-modal.modal1>Add New CallCenter</b-btn></th>
                 </tr>
             </thead>
             <tfoot>
@@ -38,7 +38,7 @@
                     <td>{{ item.email }}</td>
                     <td class="input-group input-group-sm">
                         <input class="form-control" type="password" name="password" placeholder="Change Password" v-model="item.newPassword" />
-                        <button class="btn btn-info btn-sm" v-on:click="updatePassword(index, item.newPassword)">Update</button>
+                        <button class="btn btn-dark btn-sm" v-on:click="updatePassword(index, item.newPassword)">Update</button>
                     </td>
                     <td>
                         <button class="btn btn-danger btn-sm" v-on:click="deleteUser(index)">Delete</button>
@@ -47,6 +47,32 @@
                 </tr>
             </tbody>
         </table>
+        <b-modal id="modal1" title="Add New CallCenter">
+            <div class="form-group row">
+                <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
+                <div class="col-md-6">
+                    <input id="name" type="text" class="form-control" name="name" value="" required autofocus>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="username" class="col-md-4 col-form-label text-md-right">Username</label>
+                <div class="col-md-6">
+                    <input id="username" type="text" class="form-control" name="username" value="" required autofocus>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
+                <div class="col-md-6">
+                    <input id="password" type="password" class="form-control" name="password" value="" required autofocus>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail</label>
+                <div class="col-md-6">
+                    <input id="email" type="password" class="form-control" name="email" value="" required autofocus>
+                </div>
+            </div>
+        </b-modal>
     </div>
 </template>
 
@@ -58,7 +84,8 @@
                 dismissSecs: 3,
                 dismissCountDown: 0,
                 alertMessage: 'Hello World',
-                myVariant: 'warning'
+                myVariant: 'warning',
+                newCallCenter
             }
         },
         props: ['apitoken'],
