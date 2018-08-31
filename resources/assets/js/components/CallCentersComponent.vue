@@ -1,5 +1,14 @@
 <template>
     <div class="row" id="CallCenters">
+        <div>
+            <b-alert :show="dismissCountDown"
+                    dismissible
+                    :variant="myVariant"
+                    @dismissed="dismissCountDown=0"
+                    @dismiss-count-down="countDownChanged">
+            {{ alertMessage }}
+            </b-alert>
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -22,16 +31,19 @@
                 </tr>
             </tfoot>
             <tbody>
-                <tr v-for="item in items" :key="item.id">
+                <tr v-for="(item, index) in items" :key="item.id">
                     <td>{{ item.name }}</td>
                     <td>{{ item.username }}</td>
                     <td>{{ item.username.split('@',2)[1] }}</td>
                     <td>{{ item.email }}</td>
                     <td class="input-group input-group-sm">
-                        <input class="form-control" type="text" name="password" id="password" placeholder="Change Password" v-model="newPassword" />
-                        <button class="btn btn-info btn-sm" v-on:click="updatePassword()">Update</button>
+                        <input class="form-control" type="password" name="password" placeholder="Change Password" v-model="item.newPassword" />
+                        <button class="btn btn-info btn-sm" v-on:click="updatePassword(index, item.newPassword)">Update</button>
                     </td>
-                    <td><button class="btn btn-danger btn-sm">Delete</button><button class="btn btn-warning btn-sm">Suspend</button></td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" v-on:click="deleteUser(index)">Delete</button>
+                        <!-- <button class="btn btn-warning btn-sm">Suspend</button> -->
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -42,16 +54,11 @@
     export default {
         data: function() {
             return  {
-                items: [
-                    {
-                        id: 1,
-                        name: 'Petrit Berisha',
-                        username: 'pberisha@ADMIN',
-                        domain: 'ADMIN',
-                        email: 'pberisha@led-con.com',
-                    }
-                ],
-                newPassword: null,
+                items: [],
+                dismissSecs: 3,
+                dismissCountDown: 0,
+                alertMessage: 'Hello World',
+                myVariant: 'warning'
             }
         },
         props: ['apitoken'],
@@ -61,9 +68,41 @@
                 .then(response => (this.items = response.data.users))
         },
         methods: {
-            updatePassword: function(id, event){
-                alert('testing: ' + id);
+            updatePassword: function(index, newPassword){
+                var self = this;
+                let item = this.items[index];
+                axios
+                    .post( 
+                        '/api/admin/callcenters/password', { id: item.id, password: newPassword }
+                    )
+                    .then(function (response) {
+                        item.newPassword = '',
+                        self.showAlert(response.data.alert, response.data.status)
+                    })
             },
+            deleteUser: function(index){
+                var self = this;
+                let item = this.items[index];
+                console.log(item)
+                axios
+                    .post( 
+                        '/api/admin/callcenters/delete', { id: item.id }
+                    )
+                    .then(function (response) {
+                        self.showAlert(response.data.alert, response.data.status)
+                        if(response.data.alert == 'success'){
+                            this.items.splice(index, 1);
+                        }
+                    })
+            },
+            countDownChanged (dismissCountDown) {
+                this.dismissCountDown = dismissCountDown
+            },
+            showAlert (variant, text) {
+                this.myVariant = variant
+                this.alertMessage = text
+                this.dismissCountDown = this.dismissSecs
+            }
         }
     }
 </script>

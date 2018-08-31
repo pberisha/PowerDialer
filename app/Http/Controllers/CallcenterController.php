@@ -40,6 +40,20 @@ class CallcenterController extends Controller
         }
         return $users;
     }
+
+    public function setPassword(Request $request){
+        $msg = 'Password Not Changed';
+        $id = $request->input('id');
+        $newPass = $request->input('password');
+        $currUser = Auth::user();
+        $upUser = User::find($id);
+        if( $currUser->domain() == $upUser->domain() or $currUser->domain() == 'ADMIN' ){
+            $msg = 'Password Changed';
+            return $msg;
+        }
+        return $msg;
+        
+    }
     
     /**
      * Show the form for creating a new resource.
